@@ -3,3 +3,7 @@ fn let ret
 if else while for
 bridge
 true false
+i8 u32
+bool
+ptr
+void
