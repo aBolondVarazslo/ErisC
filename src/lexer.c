@@ -42,8 +42,31 @@ Token lexer_next(Lexer *lx)
 
         Token t = {TOK_INT, strtol(buf, NULL, 10)}; /* Convert string to long */
         return t;
-
-        lx->pos++;             /* Move past the integer literal */
-        return lexer_next(lx); /* Continue lexing after the integer literal */
     }
+
+    if (isalpha((unsigned char)c) || c == '_')
+    {
+        int start = lx->pos;
+        while (isalnum((unsigned char)lx->src[lx->pos]) || lx->src[lx->pos] == '_')
+        {
+            lx->pos++; /* Keep consuming alphanumeric characters and underscores */
+        }
+        int len = lx->pos - start;
+
+        char *name = malloc(len + 1); /* Allocate memory for the identifier string */
+        for (int i = 0; i < len; i++)
+        {
+            name[i] = lx->src[start + i];
+        }
+        name[len] = '\0'; /* Null-terminate the string */
+
+        Token t;
+        t.kind = TOK_IDENT;
+        t.ival = 0;
+        t.text = name; /* Store the identifier string in the token */
+        return t;
+    }
+
+    lx->pos++;             /* Move past the integer literal */
+    return lexer_next(lx); /* Continue lexing after the integer literal */
 }
