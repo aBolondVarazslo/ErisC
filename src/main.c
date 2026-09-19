@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include "lexer.h"
 
-static char *read_file(const char *path) {
+static char *read_file(const char *path)
+{
     FILE *f = fopen(path, "rb");
-    if (!f) {
+    if (!f)
+    {
         fprintf(stderr, "erisc: could not open '%s'\n", path);
         exit(1);
     }
@@ -21,8 +23,10 @@ static char *read_file(const char *path) {
     return buf;
 }
 
-int main(int argc, char **argv) {
-    if (argc != 2) {
+int main(int argc, char **argv)
+{
+    if (argc != 2)
+    {
         fprintf(stderr, "Usage: erisc <file.eris>\n");
         return 1;
     }
@@ -33,8 +37,16 @@ int main(int argc, char **argv) {
     lexer_init(&lx, src);
 
     Token t = lexer_next(&lx);
-    while (t.kind != TOK_EOF) {
-        printf("TOK_INT: %ld\n", t.ival);
+    while (t.kind != TOK_EOF)
+    {
+        if (t.kind == TOK_INT)
+        {
+            printf("TOK_INT: %ld\n", t.ival);
+        }
+        else if (t.kind == TOK_IDENT)
+        {
+            printf("TOK_IDENT: %s\n", t.text);
+        }
         t = lexer_next(&lx);
     }
     printf("End of File\n");
