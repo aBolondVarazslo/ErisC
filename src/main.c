@@ -2,6 +2,31 @@
 #include <stdlib.h>
 #include "lexer.h"
 
+static const char *type_name(TypeKind k) {
+    switch (k)
+    {
+        case TY_I8:
+            return "i8";
+        case TY_U8:
+            return "u8";
+        case TY_I16:
+            return "i16";
+        case TY_U16:
+            return "u16";
+        case TY_I32:
+            return "i32";
+        case TY_U32:
+            return "u32";
+        case TY_BOOL:
+            return "bool";
+        case TY_PTR:
+            return "ptr";
+        case TY_VOID:
+            return "void";
+    }
+    return "?";
+}
+
 static char *read_file(const char *path)
 {
     FILE *f = fopen(path, "rb");
@@ -46,6 +71,9 @@ int main(int argc, char **argv)
             break;
         case TOK_IDENT:
             printf("TOK_IDENT: %s\n", t.text);
+            break;
+        case TOK_TYPE:
+            printf("TOK_TYPE: %s\n", type_name(t.type_kind));
             break;
         case TOK_FN:
             printf("TOK_FN\n");

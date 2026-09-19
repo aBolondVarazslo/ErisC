@@ -4,6 +4,7 @@
 #include "lexer.h"
 
 #define NUM_KEYWORDS (int)(sizeof(KEYWORDS) / sizeof(KEYWORDS[0]))
+#define NUM_TYPE_NAMES (int)(sizeof(TYPE_NAMES) / sizeof(TYPE_NAMES[0]))
 
 typedef struct
 {
@@ -22,6 +23,24 @@ static const Keyword KEYWORDS[] = {
     {"bridge", TOK_BRIDGE},
     {"true", TOK_TRUE},
     {"false", TOK_FALSE}};
+
+typedef struct
+{
+    const char *word;
+    TypeKind kind;
+} TypeName;
+
+static const TypeName TYPE_NAMES[] = {
+    {"i8", TY_I8},
+    {"u8", TY_U8},
+    {"i16", TY_I16},
+    {"u16", TY_U16},
+    {"i32", TY_I32},
+    {"u32", TY_U32},
+    {"bool", TY_BOOL},
+    {"ptr", TY_PTR},
+    {"void", TY_VOID},
+};
 
 void lexer_init(Lexer *lx, const char *src)
 {
@@ -73,6 +92,19 @@ Token lexer_next(Lexer *lx)
             lx->pos++; /* Keep consuming alphanumeric characters and underscores */
         }
         int len = lx->pos - start;
+
+        /* Check type-name table first */
+        for (int i = 0; i < NUM_TYPE_NAMES; i++) {
+            int tlen = (int)strlen(TYPE_NAMES[i].word);
+            if (tlen == len && strncmp(lx->src + start, TYPE_NAMES[i].word, len) == 0) {
+                Token t;
+                t.kind = TOK_TYPE;
+                t.ival = 0;
+                t.text = NULL;
+                t.type_kind = TYPE_NAMES[i].kind;
+                return t;
+            }
+        }
 
         /* Check if the identifier is a keyword */
         for (int i = 0; i < NUM_KEYWORDS; i++)
