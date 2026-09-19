@@ -20,7 +20,7 @@ Token lexer_next(Lexer *lx)
 
     if (c == '\0')
     {
-        Token t = {TOK_EOF, 0};
+        Token t = {TOK_EOF, 0, NULL};
         return t;
     }
 
@@ -40,7 +40,7 @@ Token lexer_next(Lexer *lx)
         }
         buf[len] = '\0'; /* Null-terminate the string */
 
-        Token t = {TOK_INT, strtol(buf, NULL, 10)}; /* Convert string to long */
+        Token t = {TOK_INT, strtol(buf, NULL, 10), NULL}; /* Convert string to long */
         return t;
     }
 
