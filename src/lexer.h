@@ -21,4 +21,4 @@ typedef struct {
 void lexer_init(Lexer *lx, const char *src);
 Token lexer_next(Lexer *lx);
 
-#endif LEXER_H
+#endif
