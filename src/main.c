@@ -1,8 +1,33 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "lexer.h"
 
-int main() {
-    const char *src = "42 7 123";
+static char *read_file(const char *path) {
+    FILE *f = fopen(path, "rb");
+    if (!f) {
+        fprintf(stderr, "erisc: could not open '%s'\n", path);
+        exit(1);
+    }
+
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char *buf = malloc(size + 1);
+    fread(buf, 1, size, f);
+    buf[size] = '\0'; /* Null-terminate the string */
+
+    fclose(f);
+    return buf;
+}
+
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: erisc <file.eris>\n");
+        return 1;
+    }
+
+    const char *src = read_file(argv[1]);
 
     Lexer lx;
     lexer_init(&lx, src);
