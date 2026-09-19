@@ -1,6 +1,27 @@
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 #include "lexer.h"
+
+#define NUM_KEYWORDS (int)(sizeof(KEYWORDS) / sizeof(KEYWORDS[0]))
+
+typedef struct
+{
+    const char *word;
+    TokenKind kind;
+} Keyword;
+
+static const Keyword KEYWORDS[] = {
+    {"fn", TOK_FN},
+    {"let", TOK_LET},
+    {"ret", TOK_RET},
+    {"if", TOK_IF},
+    {"else", TOK_ELSE},
+    {"while", TOK_WHILE},
+    {"for", TOK_FOR},
+    {"bridge", TOK_BRIDGE},
+    {"true", TOK_TRUE},
+    {"false", TOK_FALSE}};
 
 void lexer_init(Lexer *lx, const char *src)
 {
@@ -52,6 +73,19 @@ Token lexer_next(Lexer *lx)
             lx->pos++; /* Keep consuming alphanumeric characters and underscores */
         }
         int len = lx->pos - start;
+
+        /* Check if the identifier is a keyword */
+        for (int i = 0; i < NUM_KEYWORDS; i++)
+        {
+            int klen = (int)strlen(KEYWORDS[i].word);
+            if (klen == len && strncmp(lx->src + start, KEYWORDS[i].word, len) == 0) {
+                Token t;
+                t.kind = KEYWORDS[i].kind;
+                t.ival = 0;
+                t.text = NULL;
+                return t;
+            }
+        }
 
         char *name = malloc(len + 1); /* Allocate memory for the identifier string */
         for (int i = 0; i < len; i++)

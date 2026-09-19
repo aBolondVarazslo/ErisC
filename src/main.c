@@ -39,13 +39,46 @@ int main(int argc, char **argv)
     Token t = lexer_next(&lx);
     while (t.kind != TOK_EOF)
     {
-        if (t.kind == TOK_INT)
+        switch (t.kind)
         {
+        case TOK_INT:
             printf("TOK_INT: %ld\n", t.ival);
-        }
-        else if (t.kind == TOK_IDENT)
-        {
+            break;
+        case TOK_IDENT:
             printf("TOK_IDENT: %s\n", t.text);
+            break;
+        case TOK_FN:
+            printf("TOK_FN\n");
+            break;
+        case TOK_LET:
+            printf("TOK_LET\n");
+            break;
+        case TOK_RET:
+            printf("TOK_RET\n");
+            break;
+        case TOK_IF:
+            printf("TOK_IF\n");
+            break;
+        case TOK_ELSE:
+            printf("TOK_ELSE\n");
+            break;
+        case TOK_WHILE:
+            printf("TOK_WHILE\n");
+            break;
+        case TOK_FOR:
+            printf("TOK_FOR\n");
+            break;
+        case TOK_BRIDGE:
+            printf("TOK_BRIDGE\n");
+            break;
+        case TOK_TRUE:
+            printf("TOK_TRUE\n");
+            break;
+        case TOK_FALSE:
+            printf("TOK_FALSE\n");
+            break;
+        case TOK_EOF:
+            break;
         }
         t = lexer_next(&lx);
     }
