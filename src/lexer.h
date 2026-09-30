@@ -19,6 +19,16 @@ typedef enum
     TOK_BRIDGE, /* Extern keyword */
     TOK_TRUE,   /* True keyword */
     TOK_FALSE,  /* False keyword */
+
+    /* Punctuation */
+    TOK_LPAREN, /* ( */
+    TOK_RPAREN, /* ) */
+    TOK_LBRACE, /* { */
+    TOK_RBRACE, /* } */
+    TOK_PERIOD, /* . */
+    TOK_COMMA,  /* , */
+    TOK_SEMI,   /* ; */
+    TOK_COLON,  /* : */
 } TokenKind;
 
 typedef enum

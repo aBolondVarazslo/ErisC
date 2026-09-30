@@ -94,9 +94,11 @@ Token lexer_next(Lexer *lx)
         int len = lx->pos - start;
 
         /* Check type-name table first */
-        for (int i = 0; i < NUM_TYPE_NAMES; i++) {
+        for (int i = 0; i < NUM_TYPE_NAMES; i++)
+        {
             int tlen = (int)strlen(TYPE_NAMES[i].word);
-            if (tlen == len && strncmp(lx->src + start, TYPE_NAMES[i].word, len) == 0) {
+            if (tlen == len && strncmp(lx->src + start, TYPE_NAMES[i].word, len) == 0)
+            {
                 Token t;
                 t.kind = TOK_TYPE;
                 t.ival = 0;
@@ -110,7 +112,8 @@ Token lexer_next(Lexer *lx)
         for (int i = 0; i < NUM_KEYWORDS; i++)
         {
             int klen = (int)strlen(KEYWORDS[i].word);
-            if (klen == len && strncmp(lx->src + start, KEYWORDS[i].word, len) == 0) {
+            if (klen == len && strncmp(lx->src + start, KEYWORDS[i].word, len) == 0)
+            {
                 Token t;
                 t.kind = KEYWORDS[i].kind;
                 t.ival = 0;
@@ -131,6 +134,34 @@ Token lexer_next(Lexer *lx)
         t.ival = 0;
         t.text = name; /* Store the identifier string in the token */
         return t;
+    }
+
+    switch (c)
+    {
+        case '(':
+            lx->pos++;
+            return (Token){TOK_LPAREN, 0, NULL, 0};
+        case ')':
+            lx->pos++;
+            return (Token){TOK_RPAREN, 0, NULL, 0};
+        case '{':
+            lx->pos++;
+            return (Token){TOK_LBRACE, 0, NULL, 0};
+        case '}':
+            lx->pos++;
+            return (Token){TOK_RBRACE, 0, NULL, 0};
+        case '.':
+            lx->pos++;
+            return (Token){TOK_PERIOD, 0, NULL, 0};
+        case ',':
+            lx->pos++;
+            return (Token){TOK_COMMA, 0, NULL, 0};
+        case ';':
+            lx->pos++;
+            return (Token){TOK_SEMI, 0, NULL, 0};
+        case ':':
+            lx->pos++;
+            return (Token){TOK_COLON, 0, NULL, 0};
     }
 
     lx->pos++;             /* Move past the integer literal */
