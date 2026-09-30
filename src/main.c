@@ -2,27 +2,28 @@
 #include <stdlib.h>
 #include "lexer.h"
 
-static const char *type_name(TypeKind k) {
+static const char *type_name(TypeKind k)
+{
     switch (k)
     {
-        case TY_I8:
-            return "i8";
-        case TY_U8:
-            return "u8";
-        case TY_I16:
-            return "i16";
-        case TY_U16:
-            return "u16";
-        case TY_I32:
-            return "i32";
-        case TY_U32:
-            return "u32";
-        case TY_BOOL:
-            return "bool";
-        case TY_PTR:
-            return "ptr";
-        case TY_VOID:
-            return "void";
+    case TY_I8:
+        return "i8";
+    case TY_U8:
+        return "u8";
+    case TY_I16:
+        return "i16";
+    case TY_U16:
+        return "u16";
+    case TY_I32:
+        return "i32";
+    case TY_U32:
+        return "u32";
+    case TY_BOOL:
+        return "bool";
+    case TY_PTR:
+        return "ptr";
+    case TY_VOID:
+        return "void";
     }
     return "?";
 }
@@ -106,6 +107,30 @@ int main(int argc, char **argv)
             printf("TOK_FALSE\n");
             break;
         case TOK_EOF:
+            break;
+        case TOK_LPAREN:
+            printf("TOK_LPAREN\n");
+            break;
+        case TOK_RPAREN:
+            printf("TOK_RPAREN\n");
+            break;
+        case TOK_LBRACE:
+            printf("TOK_LBRACE\n");
+            break;
+        case TOK_RBRACE:
+            printf("TOK_RBRACE\n");
+            break;
+        case TOK_PERIOD:
+            printf("TOK_PERIOD\n");
+            break;
+        case TOK_COMMA:
+            printf("TOK_COMMA\n");
+            break;
+        case TOK_SEMI:
+            printf("TOK_SEMI\n");
+            break;
+        case TOK_COLON:
+            printf("TOK_COLON\n");
             break;
         }
         t = lexer_next(&lx);
